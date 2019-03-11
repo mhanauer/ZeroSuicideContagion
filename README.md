@@ -153,6 +153,45 @@ hist(Suicides_log)
 hist(Suicides)
 
 ```
+Try suicides by pre and post intervention
+```{r}
+
+ITSTest_pre = subset(ITSTest, Intervention == 0)
+
+
+Suicides = ITSTest_pre$Suicides
+plot(ITSTest_pre$Time, ITSTest_pre$Suicides)
+acf_suic = acf(Suicides)
+pacf_suic = pacf(Suicides)
+### Problem is that acf is using correlation, which is assuming two normally distrubted varialbes, which is not true
+
+
+
+
+Suicides = ITSTest$Suicides
+plot(ITSTest$Time, ITSTest$Suicides)
+acf_suic = acf(Suicides)
+pacf_suic = pacf(Suicides)
+
+
+### Use other test
+mean_station_short =  ur.kpss(ITSTest_pre$Suicides, type="mu", lags="short")
+summary(mean_station_short)
+
+trend_station_short =  ur.kpss(ITSTest_pre$Suicides, type="tau", lags="short")
+summary(trend_station_short)
+
+mean_station_long =  ur.kpss(ITSTest_pre$Suicides, type="mu", lags="long")
+summary(mean_station_long)
+
+trend_station_long =  ur.kpss(ITSTest_pre$Suicides, type="tau", lags="long")
+summary(trend_station_long)
+
+## try auto with log of suc
+Suicides_log = log(Suicides)
+hist(Suicides_log)
+hist(Suicides)
+```
 
 
 
